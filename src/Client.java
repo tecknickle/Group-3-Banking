@@ -45,7 +45,7 @@ public class Client {
 		
 	}
 	
-	//message
+	//print a message
 	private static void info() {
 		System.out.println("This is the Client Class");
 		System.out.println(":)\n");
