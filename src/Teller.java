@@ -29,14 +29,14 @@ public class Teller {
 	    
 	    //Then check if server made successful login (check another message)
 	   
-	    //make client variable
-	    Client client = null;
+	    //make Teller variable
+	    Teller teller = null;
 	   
 	    //create a compare function to check for valid ID.
 	    if (ui.equals("realID")) {
 	        System.out.println("Welcome!  ");
 	       
-	        //make new client
+	        //make new teller
 	        //Teller = new Teller("localhost", "port number?");
 	       
 		    //create message object to login
