@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Client {
 	public static void main(String[] args) {
 		//hello 
@@ -17,12 +18,15 @@ public class Client {
 	
 	
 	private static void login() {
-		// String input with the Java Scanner
+		// make user enter ID (Java Scanner)
 	    System.out.println("enter ID to log in:");
 	    Scanner userInput = new Scanner(System.in);
 	    String ui = userInput.next();
+	    
 	    //create a message object to send to server?
 	    //Message message;
+	    
+	    //Then check if server made successful login (check another message)
 	   
 	    //make client variable
 	    Client client = null;
