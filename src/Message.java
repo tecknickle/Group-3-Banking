@@ -4,21 +4,13 @@ import java.io.Serializable;
 //implement serializable
 public class Message implements Serializable {
 	//variables
-	protected String ID;
-	protected String type;
+	protected int ID;
+	protected MessageType type;
 	protected String data;
 	protected float funds;
 	
-	//constructor
-	public Message(){
-		this.ID = "Undefined";
-		this.type = "Undefined";
-		this.data = "Undefinded";
-		this.funds = 0;
-		
-	}
 	//constructor to set variables
-	public Message(String ID, String type, String data, float funds){
+	public Message(int ID, MessageType type, String data, float funds){
 		this.ID = setID (ID);
 		this.type = setType(type);
 		this.data = setData(data);
@@ -27,10 +19,10 @@ public class Message implements Serializable {
 	}
 	
 	//setters - set strings accordingly (ID/type/data/funds)
-	private String setID(String ID){
+	private int setID(int ID){
 		return this.ID = ID;
 	}
-	public String setType(String type){
+	public MessageType setType(MessageType type){
 		return this.type = type;
 	}
 	public String setData(String data){
@@ -44,10 +36,10 @@ public class Message implements Serializable {
 	
 	//getters- get ID/Type/data/funds
 	
-	public String getID() {
+	public int getID() {
 		return this.ID;
 	}
-	public String getType(){
+	public MessageType getType(){
 		return this.type;
 	}
 	
