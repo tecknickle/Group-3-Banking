@@ -24,7 +24,7 @@ public Client(String server, int portNumber) throws IOException {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		info();
-		//login (verify user) = in user 
+		//login (verify user) = in user class
 		login();
 		
 	    /*if login == successful, make loops/functions for:
@@ -34,7 +34,7 @@ public Client(String server, int portNumber) throws IOException {
 	     */
 	}
 	
-	//Login should be in class "User"
+	//Login function should be in class "User"
 	private static void login() throws IOException, ClassNotFoundException {
 		// make user enter username/password
 	    System.out.println("To log in, please enter Username/password");
@@ -64,29 +64,26 @@ public Client(String server, int portNumber) throws IOException {
 	        //message(int ID, MessageType type, string data, float funds)
             message = new Message(0, MS, "",0);
 
-	        
-	        
-	        
-	        
-	        //where do I get user ID from?
+	       //                    ^^
+
+	        //where do I get user ID from? (I just put a 0 as placeholder)
+            
+            
 
 	    } else {
 	        System.out.println("Sorry, try again ");
 	        login();
     	}
-	    
-	    
     
 	  //receive message back from server (in stream)
 	    message = (Message) client.instream.readObject();
 	    
+	    
+	    //check if user successfully logged in with message type
 	    if (message.getType().equals("Accepted")) {
 	       //Shouldn't the  add/remove account functions be in "BankAccount" Class with other functions?
 	        }
-	    
-	    
-	    
-	    
+	    //end of login
 	    }
 
 	

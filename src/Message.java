@@ -18,8 +18,8 @@ public class Message implements Serializable {
 		
 	}
 	
-	//setters - set strings accordingly (ID/type/data/funds)
-	private int setID(int ID){
+	//setters - set strings accordingly (ID/type/data/funds) (public)
+	public int setID(int ID){
 		return this.ID = ID;
 	}
 	public MessageType setType(MessageType type){
@@ -34,7 +34,7 @@ public class Message implements Serializable {
 	}
 	
 	
-	//getters- get ID/Type/data/funds
+	//getters- get ID/Type/data/funds  (public)
 	
 	public int getID() {
 		return this.ID;
