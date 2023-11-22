@@ -19,34 +19,6 @@ public class Teller {
 	
 	
 	private static void login() {
-		// make user enter ID (Java Scanner)
-	    System.out.println("enter Teller ID to log in:");
-	    Scanner userInput = new Scanner(System.in);
-	    String ui = userInput.next();
-	    
-	    //create a message object to send to server
-	    //Message message;
-	    
-	    //Then check if server made successful login (check another message)
-	   
-	    //make Teller variable
-	    Teller teller = null;
-	   
-	    //create a compare function to check for valid ID.
-	    if (ui.equals("realID")) {
-	        System.out.println("Welcome!  ");
-	       
-	        //make new teller
-	        //Teller = new Teller("localhost", "port number?");
-	       
-		    //create message object to login
-		   
-		    //send to server
-		   
-	    	}else {
-		        System.out.println("Sorry, try again ");
-		        login();
-	    	}
 		
 	}
 	//print a message
