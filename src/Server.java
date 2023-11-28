@@ -7,6 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+	//Can you put input/outputStreams to send message objects
+	//back and forth server to client... 
+		
 	public static void main(String[] args) {
 		ServerSocket server= null;
 		try {
@@ -51,7 +54,6 @@ public class Server {
 		public ClientHandler(Socket socket)  throws IOException, ClassNotFoundException
 		{
 			clientSocket = socket;
-			
 		}
 
 		public void run()

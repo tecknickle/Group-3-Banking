@@ -4,15 +4,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
-//create variables for 2 way communication outputStream/inputStream
+//Client extends User to login with user name and password. 
+public class Client extends User{
+//create socket for 2 way communication outputStream/inputStream
 	private Socket socket;
-	private ObjectOutputStream outstream;
-	private ObjectInputStream instream;
 	
-	private static MessageType MS;    //should this be static? 
-
-//constructor /client handler
+	
+//constructor
 public Client(String server, int portNumber) throws IOException {
 	//make socket and 2 way connections. 
 	socket = new Socket(server, portNumber);
@@ -26,66 +24,14 @@ public Client(String server, int portNumber) throws IOException {
 		info();
 		//login (verify user) = in user class
 		login();
+		System.out.println("logged in! (from clinet class)");
+
 		
-	    /*if login == successful, make loops/functions for:
-	     * check balance/deposit/withdrawing
-	     *
-	     * Logic on "bank account" class...
-	     */
+		
+		//should't the add/remove account functions be in bank account class?
+		
 	}
 	
-	//Login function should be in class "User"
-	private static void login() throws IOException, ClassNotFoundException {
-		// make user enter username/password
-	    System.out.println("To log in, please enter Username/password");
-	    Scanner userInput = new Scanner(System.in);
-	    String username,password;
-	    System.out.println("Username: ");
-	    username = userInput.nextLine();
-	    
-	    System.out.println("Password: ");
-	    password = userInput.nextLine();
-	    
-	    //create a message object to be able to talk to server
-	    Message message;
-	    //make client variable
-	    Client client = null;
-	   
-	    //check vector once user has access to IDs from server.
-	    if (username.equals("teller") || username .equals("client") && password.equals("password")) {
-	        System.out.println("Welcome! ");
-	        System.out.println("User = "  + username);
-	        //make new client
-	        client = new Client("localhost", 6969);
-	        //if user name/password correct, messageType = login
-	        MS = MessageType.Login;
-	       
-		    //create message object to login with order:
-	        //message(int ID, MessageType type, string data, float funds)
-            message = new Message(0, MS, "",0);
-
-	       //                    ^^
-
-	        //where do I get user ID from? (I just put a 0 as placeholder)
-            
-            
-
-	    } else {
-	        System.out.println("Sorry, try again ");
-	        login();
-    	}
-    
-	  //receive message back from server (in stream)
-	    message = (Message) client.instream.readObject();
-	    
-	    
-	    //check if user successfully logged in with message type
-	    if (message.getType().equals("Accepted")) {
-	       //Shouldn't the  add/remove account functions be in "BankAccount" Class with other functions?
-	        }
-	    //end of login
-	    }
-
 	
 	
 	//print a message
