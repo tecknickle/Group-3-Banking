@@ -89,11 +89,24 @@ public class ClientGUI implements ListSelectionListener, ActionListener {
 		
 	}
 	
-	private static boolean login(ObjectOutputStream outObj, ObjectInputStream inObj, String user, String pass) {
+	private static boolean login(ObjectOutputStream outObj, ObjectInputStream inObj, String user, String pass) throws IOException, ClassNotFoundException {
 		
-		// STUB: I don't think I should need to explain what this should do haha. Handle those server comms, return false if NG
+		Message message = new Message(0, MessageType.Login, user + pass, 0);
 		
-		return true;
+		outObj.writeObject(message);
+		outObj.flush();
+		
+		message = (Message) inObj.readObject();
+		
+		if (message.getType().equals(MessageType.Accepted)) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+		
 	}
 	
 	private static Vector<String[]> loadAccountInfo(ObjectOutputStream outObj, ObjectInputStream inObj, String user) { 
