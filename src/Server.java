@@ -14,8 +14,6 @@ public class Server {
 	static private HashMap <String,bankAccount> Accounts;
 	static private HashMap <String,log> Logs;
 	
-	static private int b = 0;
-	
 	Server(){
 		Users = new HashMap<String,User>();
 		Accounts = new HashMap<String,bankAccount>();
@@ -23,17 +21,10 @@ public class Server {
 	public static void main(String[] args) {
 		ServerSocket server= null;
 		try {
-			/*****Testing variable access*****/
-			System.out.println("1: " + b);
-			test t = new test();
-			t.change();
-			System.out.println("2: " + b);
-			t.change(13);
-			System.out.println("1: " + b);
 			//Create a ServerSock on socket:4591
 	        server = new ServerSocket(4591);
 	        server.setReuseAddress(true);
-	        /*********************************/
+	        
 			while(true) {
 		        System.out.println("ServerSocket awaiting connections...");
 
@@ -59,20 +50,6 @@ public class Server {
 			}
 		}
 	}
-	
-	private static class test{
-		int a;
-		test(){
-			a = 4;
-		}
-		public void change(int a) {
-			b = a;
-		}
-		public void change() {
-			b = a;
-		}
-	}
-	
 	private static class ClientHandler implements Runnable {
 		private final Socket clientSocket;
 		private Message msg;
@@ -104,16 +81,61 @@ public class Server {
 		public void run()
 		{
 			try {
-				
-				verifyLogin();
-				
-				String inputStr;
-				while(loggedIN) {
-					msg = (Message)in.readObject();	
+				if(!loggedIN) {
+					verifyLogin();
+					
+					String inputStr;
+					
+						while(loggedIN) {
+							
+							msg = (Message)in.readObject();	//get object from network
+							
+							if(Teller) {
+								switch (msg.getType()) {
+									case Login:
+										//handleLogin();
+										break;
+									case Logout:
+										//handleLogout();
+										break;
+									case Deposit:
+									//handleDeposit();
+										break;
+									case Withdraw:
+										//handleWithdraw();
+										break;
+									// Add more cases for other message types
+									default:
+										// Handle unknown message types
+										loggedIN = false;
+										break;
+								}
+							}
+							else {
+								switch (msg.getType()) {
+									case Login:
+										//handleLogin();
+										break;
+									case Logout:
+										//handleLogout();
+										break;
+									case Deposit:
+										//handleDeposit();
+										break;
+									case Withdraw:
+										//handleWithdraw();
+										break;
+									// Add more cases for other message types
+									default:
+										// Handle unknown message types
+										loggedIN = false;
+									break;
+								}
+							}
+						}
+					}
+					clientSocket.close();
 				}
-				
-		        clientSocket.close();				
-			}
 			catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -140,11 +162,16 @@ public class Server {
 				try {
 					msg = (Message)in.readObject();
 					if(msg.type == MessageType.Login) {
-						input = msg.getData().split("\n");
+						
+						input = msg.getData().split("\n"); //parse data string from message object
+						
+						//store username and password temporarily
 						username = input[0];
 						password = input[1];
-						User u = Users.get(input[0]);
-						if(u.verifyUser(username,password)) {
+						
+						User user = Users.get(input[0]);
+						
+						if(user.verifyUser(username,password)) {
 							loggedIN = true;
 							// send out approval message
 						}
@@ -161,26 +188,22 @@ public class Server {
 				e.printStackTrace();
 				}
 			}
-			if(loggedIN) {
-				switch (Message.getType()) {
-				case Login:
-                    handleLogin(Message);
-                    break;
-                case Logout:
-                    handleLogout(Message);
-                    break;
-                case Deposit:
-                    handleDeposit(Message);
-                    break;
-                case Withdraw:
-                    handleWithdraw(Message);
-                    break;
-                // Add more cases for other message types
-                default:
-                    // Handle unknown message types
-                    break;
-				}
-			}
+		}
+		
+		void handleLogin() {
+			
+		}
+		
+		void handleLogout() {
+		
+		}
+		
+		void handleDeposit() {
+			
+		}
+		
+		void handleWithdraw() {
+			
 		}
 	}
 }
