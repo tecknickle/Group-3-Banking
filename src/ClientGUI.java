@@ -137,7 +137,7 @@ public class ClientGUI implements ListSelectionListener, ActionListener {
 					JOptionPane.showMessageDialog(null, "Deposit failed", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-			catch (NumberFormatException e) {
+			catch (NumberFormatException | HeadlessException | IOException | ClassNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Invalid amount", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			break;
@@ -147,7 +147,7 @@ public class ClientGUI implements ListSelectionListener, ActionListener {
 					JOptionPane.showMessageDialog(null, "Withdraw failed", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-			catch (NumberFormatException e) {
+			catch (NumberFormatException | HeadlessException | IOException | ClassNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Invalid amount", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			break;
@@ -161,12 +161,44 @@ public class ClientGUI implements ListSelectionListener, ActionListener {
 		accountInfo = loadAccountInfo(outObj, inObj, user);
 	}
 	
-	private boolean deposit(String account, float amount) {
-		return true;
+	private boolean deposit(String account, float amount) throws IOException, ClassNotFoundException {
+		
+		Message message = new Message(0, MessageType.Deposit, account, amount);
+				
+		outObj.writeObject(message);
+		outObj.flush();
+		
+		message = (Message) inObj.readObject();
+		
+		if (message.getType().equals(MessageType.Accepted)) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+				
 	}
 	
-	private boolean withdraw(String account, float amount) {
-		return true;
+	private boolean withdraw(String account, float amount) throws IOException, ClassNotFoundException {
+		
+		Message message = new Message(0, MessageType.Withdraw, account, amount);
+				
+		outObj.writeObject(message);
+		outObj.flush();
+		
+		message = (Message) inObj.readObject();
+		
+		if (message.getType().equals(MessageType.Accepted)) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+		}
+		
 	}
 	
 	private void logout() {
