@@ -161,6 +161,26 @@ public class Server {
 				e.printStackTrace();
 				}
 			}
+			if(loggedIN) {
+				switch (Message.getType()) {
+				case Login:
+                    handleLogin(Message);
+                    break;
+                case Logout:
+                    handleLogout(Message);
+                    break;
+                case Deposit:
+                    handleDeposit(Message);
+                    break;
+                case Withdraw:
+                    handleWithdraw(Message);
+                    break;
+                // Add more cases for other message types
+                default:
+                    // Handle unknown message types
+                    break;
+				}
+			}
 		}
 	}
 }
