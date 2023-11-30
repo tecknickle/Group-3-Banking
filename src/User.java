@@ -14,8 +14,8 @@ public class User {
 	
 	protected static MessageType MS;    //should this be static? 
 
-	//Login function = "verify user" with vector once it has been created.
-		protected static void login() throws IOException, ClassNotFoundException {
+	//verify user by logging in with user name and password. compare with with vector. 
+		protected static boolean verifyUser() throws IOException, ClassNotFoundException {
 			// make user enter username/password
 		    System.out.println("To log in, please enter user type/password");
 		    Scanner userInput = new Scanner(System.in);
@@ -31,28 +31,32 @@ public class User {
 		    //make client variable
 		    Client client = null;
 		   
-		    //check vector once user has access to IDs from server.
+		    //check username/password
 		    if (username.equals("teller") || username .equals("client") && password.equals("password")) {
 		        System.out.println("Welcome! ");
 		        System.out.println("User = "  + username + " sucessfully connected to server.");
+		        
+		        
 		        //make new client
 		        client = new Client("localhost", 4591);
 		        
-		        //if user name/password correct, make messageType = login
+		        //make messageType = login
 		        MS = MessageType.Login;
-			    //create message object to login. order:
-		        //message(int ID, MessageType type, string data, float funds)
-	            message = new Message(0, MS, "",0);
+			    //create message object type "Login" with request encoding: data = username/password
+		  
+	            message = new Message(0, MS, username+"\n" + password,0);
 	            //                    ^
 	            //where do I get user ID from? (I just put a 0 as placeholder)
-	            
 
 	            //send message to server
 	            client.outstream.writeObject(message);
+	            client.outstream.flush();
+				return true;
+
 		    //try again
 		    } else {
 		        System.out.println("Sorry, try again ");
-		        login();
+		        verifyUser();
 	    	}
 	    
 		    
@@ -67,8 +71,7 @@ public class User {
 		        }else {
 		        	System.out.println("couldn't get message back from server...");
 		        }
-		    //end of login
+			return false;
 		    }
-
 }
 	
