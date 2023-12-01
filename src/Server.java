@@ -13,6 +13,7 @@ public class Server {
 	static private HashMap <String,User> Users;
 	static private HashMap <String,bankAccount> Accounts;
 	static private HashMap <String,log> Logs;
+	static private float minimumFunds = 25;
 	
 	Server(){
 		Users = new HashMap<String,User>();
@@ -92,11 +93,8 @@ public class Server {
 							
 							if(Teller) {
 								switch (msg.getType()) {
-									case Login:
-										//handleLogin();
-										break;
 									case Logout:
-										//handleLogout();
+										handleLogout();
 										break;
 									case Deposit:
 									//handleDeposit();
@@ -113,11 +111,8 @@ public class Server {
 							}
 							else {
 								switch (msg.getType()) {
-									case Login:
-										//handleLogin();
-										break;
 									case Logout:
-										//handleLogout();
+										handleLogout();
 										break;
 									case Deposit:
 										//handleDeposit();
@@ -174,15 +169,18 @@ public class Server {
 						if(user.verifyUser(username,password)) {
 							loggedIN = true;
 							// send out approval message
+							msg = new Message(MessageType.Accepted,"Login Successful",null);
 						}
 						else {
-							//send out disapproval message
+							msg = new Message(MessageType.Declined,"Login Failed",null);
 						}
 					}
 					else {
 						loggedIN = false;
+						msg = new Message(MessageType.Declined,"Login Failed",null);
 						break;
 					}
+					out.writeObject(msg);
 				}
 				catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
@@ -190,20 +188,29 @@ public class Server {
 			}
 		}
 		
-		void handleLogin() {
-			
-		}
-		
 		void handleLogout() {
-		
+			msg = new Message(MessageType.Logout,"User Logged Out",null);
+			out.writeObject(msg);
+			loggedIN = false;
 		}
 		
 		void handleDeposit() {
+			if(msg.getFunds() > 0) {
+				msg = new Message();
+			}
+			else {
+				msg = new Message(MessageType.Declined,"Not Enough Funds",null);
+			}
 			
 		}
 		
 		void handleWithdraw() {
-			
+			if(true) { // check if funds go below minimum;
+				
+			}
+			else { //not enough funds
+				msg = new Message(MessageType.Declined,"Insufficient Funds",null);
+			}
 		}
 	}
 }
