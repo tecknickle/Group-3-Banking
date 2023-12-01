@@ -201,7 +201,7 @@ public class ClientGUI implements ListSelectionListener, ActionListener {
 		
 	}
 	
-	private void logout() {
+	private void logout() throws IOException {
 
 		Message message = new Message(MessageType.LOGOUT, "", 0);
 				
