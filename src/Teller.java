@@ -1,23 +1,24 @@
 import java.util.Scanner;
 
 public class Teller {
-	public static void main(String[] args) {
-		
-	
-	}
-	
-//Get Teller Handler - class still needs to be implemented
-public TellerHandler getHandler() {
-	return null;
-	//stub
+    private TellerHandler handler;
 
-}
+    public static void main(String[] args) {
+        Teller teller = new Teller();
+        teller.start();
+    }
 
-//Set Client Handler
-public  void setHandler() {
-	//stub
-}
-	
-	
-	
+    private void start() {
+        // Initialize TellerHandler
+        handler = new TellerHandler();
+        handler.run();
+    }
+
+    public TellerHandler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(TellerHandler handler) {
+        this.handler = handler;
+    }
 }
