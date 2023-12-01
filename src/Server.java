@@ -58,7 +58,7 @@ public class Server {
 		private InputStream inputStream;
 		private ObjectOutputStream out;
 		private ObjectInputStream in;
-		private String currClient;
+		private User currClient;
 		private boolean loggedIN;
 		private boolean Teller;
 		private Server parent;
@@ -93,14 +93,14 @@ public class Server {
 							
 							if(Teller) {
 								switch (msg.getType()) {
-									case Logout:
+									case LOGOUT:
 										handleLogout();
 										break;
-									case Deposit:
-									//handleDeposit();
+									case DEPOSIT:
+										handleDeposit();
 										break;
-									case Withdraw:
-										//handleWithdraw();
+									case WITHDRAW:
+										handleWithdraw();
 										break;
 									// Add more cases for other message types
 									default:
@@ -111,14 +111,14 @@ public class Server {
 							}
 							else {
 								switch (msg.getType()) {
-									case Logout:
+									case LOGOUT:
 										handleLogout();
 										break;
-									case Deposit:
-										//handleDeposit();
+									case DEPOSIT:
+										handleDeposit();
 										break;
-									case Withdraw:
-										//handleWithdraw();
+									case WITHDRAW:
+										handleWithdraw();
 										break;
 									// Add more cases for other message types
 									default:
@@ -156,7 +156,7 @@ public class Server {
 			while(!loggedIN) {
 				try {
 					msg = (Message)in.readObject();
-					if(msg.type == MessageType.Login) {
+					if(msg.type == MessageType.LOGIN_REQ) {
 						
 						input = msg.getData().split("\n"); //parse data string from message object
 						
@@ -168,16 +168,17 @@ public class Server {
 						
 						if(user.verifyUser(username,password)) {
 							loggedIN = true;
+							currClient = username;
 							// send out approval message
-							msg = new Message(MessageType.Accepted,"Login Successful",null);
+							msg = new Message(MessageType.SUCCESS,"Login Successful",null);
 						}
 						else {
-							msg = new Message(MessageType.Declined,"Login Failed",null);
+							msg = new Message(MessageType.FAIL,"Login Failed",null);
 						}
 					}
 					else {
 						loggedIN = false;
-						msg = new Message(MessageType.Declined,"Login Failed",null);
+						msg = new Message(MessageType.FAIL,"Login Failed",null);
 						break;
 					}
 					out.writeObject(msg);
@@ -188,20 +189,20 @@ public class Server {
 			}
 		}
 		
+		//Notify end user of logout then close connection.
 		void handleLogout() {
-			msg = new Message(MessageType.Logout,"User Logged Out",null);
+			msg = new Message(MessageType.LOGOUT,"User Logged Out",null);
 			out.writeObject(msg);
 			loggedIN = false;
 		}
 		
 		void handleDeposit() {
 			if(msg.getFunds() > 0) {
-				msg = new Message();
+				msg = new Message(MessageType.DEPOSIT,"Funds have been Deopsited",null);
 			}
 			else {
-				msg = new Message(MessageType.Declined,"Not Enough Funds",null);
+				msg = new Message(MessageType.FAIL,"Invalid Funds",null);
 			}
-			
 		}
 		
 		void handleWithdraw() {
@@ -209,7 +210,7 @@ public class Server {
 				
 			}
 			else { //not enough funds
-				msg = new Message(MessageType.Declined,"Insufficient Funds",null);
+				msg = new Message(MessageType.FAIL,"Insufficient Funds",null);
 			}
 		}
 	}
