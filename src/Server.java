@@ -88,50 +88,50 @@ public class Server {
 					
 					String inputStr;
 					
-						while(loggedIN) {
+					while(loggedIN) {
 							
-							msg = (Message)in.readObject();	//get object from network
+						msg = (Message)in.readObject();	//get object from network
 							
-							if(Teller) {
-								switch (msg.getType()) {
-									case LOGOUT:
-										handleLogout();
-										break;
-									case DEPOSIT:
-										handleDeposit();
-										break;
-									case WITHDRAW:
-										handleWithdraw();
-										break;
-									// Add more cases for other message types
-									default:
-										// Handle unknown message types
-										loggedIN = false;
-										break;
-								}
-							}
-							else {
-								switch (msg.getType()) {
-									case LOGOUT:
-										handleLogout();
-										break;
-									case DEPOSIT:
-										handleDeposit();
-										break;
-									case WITHDRAW:
-										handleWithdraw();
-										break;
-									// Add more cases for other message types
-									default:
-										// Handle unknown message types
-										loggedIN = false;
+						if(Teller) {
+							switch (msg.getType()) {
+								case LOGOUT:
+									handleLogout();
 									break;
-								}
+								case DEPOSIT:
+									handleDeposit();
+									break;
+								case WITHDRAW:
+									handleWithdraw();
+									break;
+								// Add more cases for other message types
+								default:
+									// Handle unknown message types
+									loggedIN = false;
+									break;
+							}
+						}
+						else {
+							switch (msg.getType()) {
+								case LOGOUT:
+									handleLogout();
+									break;
+								case DEPOSIT:
+									handleDeposit();
+									break;
+								case WITHDRAW:
+									handleWithdraw();
+									break;
+								// Add more cases for other message types
+								default:
+									// Handle unknown message types
+									loggedIN = false;
+								break;
 							}
 						}
 					}
-					clientSocket.close();
 				}
+				clientSocket.close();
+			}
 			catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -206,7 +206,7 @@ public class Server {
 		
 		void handleWithdraw() {
 			if(true) { // check if funds go below minimum;
-				
+				msg = new Message(MessageType.WITHDRAW,"Funds Withdrawn",0);
 			}
 			else { //not enough funds
 				msg = new Message(MessageType.FAIL,"Insufficient Funds",0);
