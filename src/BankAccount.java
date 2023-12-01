@@ -52,4 +52,8 @@ public class BankAccount {
 	public boolean removeUser(String user) {
 		return users.remove(user); // Vectors conveniently already have this boolean-return functionality
 	}
+	
+	public boolean hasUser(String user) {
+		return users.contains(user);
+	}
 }
