@@ -15,6 +15,13 @@ public class BankAccount {
 		status = AccountStatus.GOOD;
 	}
 	
+	public BankAccount(String name, float initBalance, float minBalance, AccountStatus status) {
+		this.name = name;
+		balance = initBalance;
+		this.minBalance = minBalance;
+		this.status = status;
+	}
+	
 	public float getBalance() {
 		return balance;
 	}
