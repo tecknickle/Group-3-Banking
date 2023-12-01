@@ -18,6 +18,7 @@ public class Server {
 	Server(){
 		Users = new HashMap<String,User>();
 		Accounts = new HashMap<String,BankAccount>();
+		LoadUsers();
 	}
 	public static void main(String[] args) {
 		ServerSocket server= null;
@@ -211,5 +212,9 @@ public class Server {
 				msg = new Message(MessageType.FAIL,"Insufficient Funds",0);
 			}
 		}
+	}
+	
+	private void LoadUsers(){
+		//load user data from file.
 	}
 }
