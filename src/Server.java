@@ -11,13 +11,13 @@ public class Server {
 	//Can you put input/outputStreams to send message objects
 	//back and forth server to client... 
 	static private HashMap <String,User> Users;
-	static private HashMap <String,bankAccount> Accounts;
+	static private HashMap <String,BankAccount> Accounts;
 	static private HashMap <String,log> Logs;
 	static private float minimumFunds = 25;
 	
 	Server(){
 		Users = new HashMap<String,User>();
-		Accounts = new HashMap<String,bankAccount>();
+		Accounts = new HashMap<String,BankAccount>();
 	}
 	public static void main(String[] args) {
 		ServerSocket server= null;
@@ -164,21 +164,19 @@ public class Server {
 						username = input[0];
 						password = input[1];
 						
-						User user = Users.get(input[0]);
+						currClient = Users.get(input[0]);
 						
-						if(user.verifyUser(username,password)) {
+						if(currClient != null && currClient.verify(password)) {
 							loggedIN = true;
-							currClient = username;
-							// send out approval message
-							msg = new Message(MessageType.SUCCESS,"Login Successful",null);
+							msg = new Message(MessageType.SUCCESS,"Login Successful",0);
 						}
 						else {
-							msg = new Message(MessageType.FAIL,"Login Failed",null);
+							msg = new Message(MessageType.FAIL,"Login Failed",0);
 						}
 					}
 					else {
 						loggedIN = false;
-						msg = new Message(MessageType.FAIL,"Login Failed",null);
+						msg = new Message(MessageType.FAIL,"Login Failed",0);
 						break;
 					}
 					out.writeObject(msg);
@@ -190,18 +188,18 @@ public class Server {
 		}
 		
 		//Notify end user of logout then close connection.
-		void handleLogout() {
-			msg = new Message(MessageType.LOGOUT,"User Logged Out",null);
+		void handleLogout() throws IOException {
+			msg = new Message(MessageType.LOGOUT,"User Logged Out",0);
 			out.writeObject(msg);
 			loggedIN = false;
 		}
 		
 		void handleDeposit() {
 			if(msg.getFunds() > 0) {
-				msg = new Message(MessageType.DEPOSIT,"Funds have been Deopsited",null);
+				msg = new Message(MessageType.DEPOSIT,"Funds have been Deopsited",0);
 			}
 			else {
-				msg = new Message(MessageType.FAIL,"Invalid Funds",null);
+				msg = new Message(MessageType.FAIL,"Invalid Funds",0);
 			}
 		}
 		
@@ -210,7 +208,7 @@ public class Server {
 				
 			}
 			else { //not enough funds
-				msg = new Message(MessageType.FAIL,"Insufficient Funds",null);
+				msg = new Message(MessageType.FAIL,"Insufficient Funds",0);
 			}
 		}
 	}
