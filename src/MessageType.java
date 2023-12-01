@@ -1,5 +1,7 @@
 
 public enum MessageType {
-ConnectClient,ConnectTeller,Login,Deposit,Withdraw, Transfer,Freeze,
-Unfreeze,Amount,Logout,Accepted,Declined,Null, getInfo
+CONNECT_CLIENT,CONNECT_TELLER,LOGIN_REQ,USER_INFO_REQ,
+LOGS_REQ,ACCOUNT_INFO,LOG_INFO,DONE,SUCCESS,FAIL,DEPOSIT,
+WITHDRAW,ADD_USER,REMOVE_USER,TRANSFER,STATUS_CHANGE,
+MAKE_ACCOUNT,LOGOUT
 }
